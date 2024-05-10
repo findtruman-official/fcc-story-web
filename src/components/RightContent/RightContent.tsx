@@ -38,7 +38,7 @@ export default function RightContent() {
           formatMessage({ id: 'header.connect-wallet' })
         )}
       </div>
-      <SelectLang />
+      <SelectLang reload={false} />
     </div>
   );
 }
