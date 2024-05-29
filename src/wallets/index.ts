@@ -5,6 +5,7 @@ export enum ChainType {
   Dfinity = 'ic',
   Near = 'near',
   IRIS = 'iris',
+  Stellar = 'stellar',
 }
 
 export enum WalletType {
@@ -14,6 +15,7 @@ export enum WalletType {
   Plug,
   NearWallet,
   Metamask,
+  Freighter,
 }
 
 export enum WalletAutoConnectType {

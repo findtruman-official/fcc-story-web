@@ -6,6 +6,7 @@ import {
   refreshToken,
 } from '@/utils/token';
 import { ChainType, WalletProvider, WalletType } from '@/wallets';
+import { FreighterWalletProvider } from '@/wallets/Freighter';
 import { KaikasWalletProvider } from '@/wallets/Kaikas';
 import { MetamaskWalletProvider } from '@/wallets/Metamask';
 import { NearWalletProvider } from '@/wallets/NearWallet';
@@ -46,6 +47,7 @@ export default () => {
     [ChainType.Dfinity]: undefined,
     [ChainType.Near]: undefined,
     [ChainType.IRIS]: undefined,
+    [ChainType.Stellar]: undefined,
   });
 
   const [accounts, setAccounts] = useState<Record<ChainType, string>>({
@@ -55,6 +57,7 @@ export default () => {
     [ChainType.Dfinity]: '',
     [ChainType.Near]: '',
     [ChainType.IRIS]: '',
+    [ChainType.Stellar]: '',
   });
 
   const [pubKeys, setPubKeys] = useState<Record<ChainType, string>>({
@@ -64,6 +67,7 @@ export default () => {
     [ChainType.Dfinity]: '',
     [ChainType.Near]: '',
     [ChainType.IRIS]: '',
+    [ChainType.Stellar]: '',
   });
 
   const getWalletEvents = (walletType: WalletType) => {
@@ -228,6 +232,25 @@ export default () => {
               irisChainInfo.findsAddress,
             ),
             noShortenAccount: true,
+          },
+        ],
+      });
+
+    const stellarChainInfo = chains.find((c) => c.type === ChainType.Stellar);
+    stellarChainInfo &&
+      _chainWallets.push({
+        chainType: ChainType.Stellar,
+        icon: ChainLogos[ChainType.Stellar],
+        wallets: [
+          {
+            name: 'Freighter',
+            icon: WalletLogos[WalletType.Freighter],
+            walletType: WalletType.Freighter,
+            provider: new FreighterWalletProvider(
+              getWalletEvents(WalletType.Freighter),
+              stellarChainInfo.factoryAddress,
+              stellarChainInfo.findsAddress,
+            ),
           },
         ],
       });

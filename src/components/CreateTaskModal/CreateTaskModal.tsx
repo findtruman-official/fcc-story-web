@@ -62,7 +62,7 @@ export default function CreateTaskModal({
       {taskModule === 'Chain' && (
         <Select
           disabled={loadingCreateStoryTask}
-          mode="multiple"
+          // mode="multiple"
           allowClear
           style={{ width: '100%', marginTop: 24, padding: 0 }}
           size={'large'}
@@ -119,7 +119,11 @@ export default function CreateTaskModal({
         onClick={async () => {
           try {
             await runCreateStoryTask(
-              { title, description: desc, rewards },
+              {
+                title,
+                description: desc,
+                rewards: Array.isArray(rewards) ? rewards : [rewards],
+              },
               token,
             );
             onClose();
