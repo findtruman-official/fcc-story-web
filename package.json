@@ -47,6 +47,7 @@
     "@stellar/stellar-sdk": "^12.0.0-rc.3",
     "story_factory": "./public/story_factory",
     "tweetnacl-util": "^0.15.1",
+    "typewriter-effect": "^2.21.0",
     "web3": "1.8.1"
   },
   "devDependencies": {
