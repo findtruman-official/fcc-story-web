@@ -25,7 +25,7 @@ import { Client, networks, StoryNftInfo } from 'story_factory';
 const Network = process.env.NODE_ENV === 'production' ? 'PUBLIC' : 'TESTNET';
 const RpcUrl =
   process.env.NODE_ENV === 'production'
-    ? 'https://rpc-futurenet.stellar.org'
+    ? 'https://rpc.ankr.com/stellar_soroban/55fa8acd4f07f9e87a2ffea1bb912a574a7c6d68daa1292af4cfd688b5e171df'
     : 'https://soroban-testnet.stellar.org:443';
 
 export class FreighterWalletProvider implements WalletProvider {
@@ -86,6 +86,7 @@ export class FreighterWalletProvider implements WalletProvider {
         this.account = pubKey;
         this.contract = new Client({
           ...networks.testnet,
+          networkPassphrase: 'Public Global Stellar Network ; September 2015',
           contractId: this.factoryAddress,
           rpcUrl: RpcUrl,
           publicKey: pubKey,
@@ -104,6 +105,7 @@ export class FreighterWalletProvider implements WalletProvider {
         this.account = pubKey;
         this.contract = new Client({
           ...networks.testnet,
+          networkPassphrase: 'Public Global Stellar Network ; September 2015',
           contractId: this.factoryAddress,
           rpcUrl: RpcUrl,
           publicKey: pubKey,
@@ -229,6 +231,7 @@ export class FreighterWalletProvider implements WalletProvider {
     const nftAddr = await this.getNftAddress(storyId);
     return new NftClient({
       ...nftNetworks.testnet,
+      networkPassphrase: 'Public Global Stellar Network ; September 2015',
       contractId: nftAddr,
       rpcUrl: RpcUrl,
     });
