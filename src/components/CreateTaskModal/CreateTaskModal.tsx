@@ -29,15 +29,14 @@ export default function CreateTaskModal({
   const { getToken } = useModel('walletModel', (model) => ({
     getToken: model.getToken,
   }));
-  const { currentStory, balanceOfStoryNft, nfts, gettingNfts } = useModel(
-    'storyModel',
-    (model) => ({
+  const { currentStory, balanceOfStoryNft, nfts, refreshNfts, gettingNfts } =
+    useModel('storyModel', (model) => ({
       currentStory: model.currentStory,
       balanceOfStoryNft: model.balanceOfStoryNft,
       nfts: model.nfts,
+      refreshNfts: model.refreshNfts,
       gettingNfts: model.gettingNfts,
-    }),
-  );
+    }));
   const chainType = currentStory?.chainInfo.type;
   const token = getToken(chainType);
 
@@ -48,6 +47,12 @@ export default function CreateTaskModal({
   useEffect(() => {
     setRewards([]);
   }, [currentStory]);
+
+  useEffect(() => {
+    if (visible) {
+      refreshNfts();
+    }
+  }, [visible]);
 
   return (
     <Modal

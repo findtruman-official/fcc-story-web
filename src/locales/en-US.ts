@@ -34,7 +34,7 @@ export default {
   'story.sold-out': 'Sold Out',
   'story.amount': 'Amount',
   'story.total': 'Total',
-  'story.price': 'Price($ERIS)',
+  'story.price': 'Price(XLM)',
   'story.rest': 'Rest',
   'story.own': 'You own',
   'story.author': 'Author',

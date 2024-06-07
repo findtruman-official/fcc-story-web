@@ -20,7 +20,10 @@ export default function AIModal({ visible, onClose }: AIModalProps) {
   const [tab, setTab] = useState<string>('image');
   const { formatMessage } = useIntl();
 
-  const walletAddress = useCreation(() => accounts[ChainType.IRIS], [accounts]);
+  const walletAddress = useCreation(
+    () => accounts[ChainType.Stellar],
+    [accounts],
+  );
 
   return (
     <Modal
