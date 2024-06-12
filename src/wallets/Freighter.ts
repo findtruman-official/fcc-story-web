@@ -104,7 +104,11 @@ export class FreighterWalletProvider implements WalletProvider {
   async connect() {
     if ((await isAllowed()) || (await setAllowed())) {
       try {
-        const pubKey = await requestAccess();
+        let pubKey = await requestAccess();
+        if (!pubKey) {
+          pubKey = await requestAccess();
+        }
+        console.log('pubKey', pubKey);
         this.onConnect!({ address: pubKey });
         this.account = pubKey;
         this.contract = new Client({
