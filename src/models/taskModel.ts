@@ -91,6 +91,7 @@ export default () => {
             ...e,
             id: e.chainSubmitId,
           })),
+          rewardNfts: res.rewardNfts.filter((e) => !!Number(e)),
         };
       }
     },
