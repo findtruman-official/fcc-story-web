@@ -19,6 +19,7 @@ declare global {
     ic: {
       plug: Plug;
     };
+    fee: number;
   }
 
   namespace API {

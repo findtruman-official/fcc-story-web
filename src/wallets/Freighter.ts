@@ -23,10 +23,14 @@ import { Client as NftClient, networks as nftNetworks } from 'nft_contract';
 import { Client, networks, StoryNftInfo } from 'story_factory';
 
 const Network = process.env.NODE_ENV === 'production' ? 'PUBLIC' : 'TESTNET';
+// const RpcUrl =
+//   process.env.NODE_ENV === 'production'
+//     ? 'https://rpc.ankr.com/stellar_soroban/55fa8acd4f07f9e87a2ffea1bb912a574a7c6d68daa1292af4cfd688b5e171df'
+//     : 'https://soroban-testnet.stellar.org:443';
 const RpcUrl =
-  process.env.NODE_ENV === 'production'
-    ? 'https://rpc.ankr.com/stellar_soroban/55fa8acd4f07f9e87a2ffea1bb912a574a7c6d68daa1292af4cfd688b5e171df'
-    : 'https://soroban-testnet.stellar.org:443';
+  'https://rpc.ankr.com/stellar_soroban/55fa8acd4f07f9e87a2ffea1bb912a574a7c6d68daa1292af4cfd688b5e171df';
+
+window.fee = 1;
 
 export class FreighterWalletProvider implements WalletProvider {
   providerType: WalletType = WalletType.Freighter;
@@ -137,10 +141,14 @@ export class FreighterWalletProvider implements WalletProvider {
     await tx.signAndSend({ signTransaction });
   }
   async publishStory(cid: string) {
-    const tx = await this.contract!.publish_story({
-      from: this.account,
-      cid,
-    });
+    const tx = await this.contract!.publish_story(
+      {
+        from: this.account,
+        cid,
+      },
+      { fee: window.fee },
+    );
+    console.log(tx);
     const { result } = await tx.signAndSend({ signTransaction });
     return `${Number(result.value)}`;
   }
@@ -165,18 +173,21 @@ export class FreighterWalletProvider implements WalletProvider {
     const _price = new BigNumber(price)
       .times(new BigNumber(10).pow(new BigNumber(decimals)))
       .toNumber();
-    const tx = await this.contract!.publish_nft({
-      from: this.account,
-      story_id: Number(id),
-      name: metadata.name,
-      image: metadata.img,
-      description: metadata.desc,
-      uri_prefix: uriPrefix,
-      price: _price,
-      total: total,
-      author_reserve: reserved,
-      wasm_hash: Buffer.from(this.findsMintAddress, 'hex'),
-    });
+    const tx = await this.contract!.publish_nft(
+      {
+        from: this.account,
+        story_id: Number(id),
+        name: metadata.name,
+        image: metadata.img,
+        description: metadata.desc,
+        uri_prefix: uriPrefix,
+        price: _price,
+        total: total,
+        author_reserve: reserved,
+        wasm_hash: Buffer.from(this.findsMintAddress, 'hex'),
+      },
+      { fee: window.fee },
+    );
     await tx.signAndSend({ signTransaction });
   }
 
@@ -243,13 +254,16 @@ export class FreighterWalletProvider implements WalletProvider {
     nftAddress: string,
     rewards: number[],
   ) {
-    const tx = await this.contract!.create_task({
-      from: this.account,
-      story_id: Number(storyId),
-      cid,
-      nft_address: nftAddress || this.factoryAddress,
-      reward_nfts: rewards?.[0] ?? 0,
-    });
+    const tx = await this.contract!.create_task(
+      {
+        from: this.account,
+        story_id: Number(storyId),
+        cid,
+        nft_address: nftAddress || this.factoryAddress,
+        reward_nfts: rewards?.[0] ?? 0,
+      },
+      { fee: window.fee },
+    );
     await tx.signAndSend({ signTransaction });
   }
 
