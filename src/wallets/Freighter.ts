@@ -14,6 +14,7 @@ import {
   signBlob,
   signTransaction,
 } from '@stellar/freighter-api';
+
 import { message } from 'antd';
 import BigNumber from 'bignumber.js';
 import { Buffer } from 'buffer';
@@ -30,7 +31,7 @@ const Network = process.env.NODE_ENV === 'production' ? 'PUBLIC' : 'TESTNET';
 const RpcUrl =
   'https://rpc.ankr.com/stellar_soroban/55fa8acd4f07f9e87a2ffea1bb912a574a7c6d68daa1292af4cfd688b5e171df';
 
-window.fee = 1;
+const networkPassphrase = 'Public Global Stellar Network ; September 2015';
 
 export class FreighterWalletProvider implements WalletProvider {
   providerType: WalletType = WalletType.Freighter;
@@ -108,7 +109,6 @@ export class FreighterWalletProvider implements WalletProvider {
         if (!pubKey) {
           pubKey = await requestAccess();
         }
-        console.log('pubKey', pubKey);
         this.onConnect!({ address: pubKey });
         this.account = pubKey;
         this.contract = new Client({
@@ -137,22 +137,25 @@ export class FreighterWalletProvider implements WalletProvider {
   }
 
   async updateStory(id: string, cid: string) {
-    const tx = await this.contract!.update_story({
-      from: this.account,
-      story_id: Number(id),
-      cid,
-    });
+    const tx = await this.contract!.update_story(
+      {
+        from: this.account,
+        story_id: Number(id),
+        cid,
+      },
+      { fee: 2e7 },
+    );
     await tx.signAndSend({ signTransaction });
   }
+
   async publishStory(cid: string) {
     const tx = await this.contract!.publish_story(
       {
         from: this.account,
         cid,
       },
-      { fee: window.fee },
+      { fee: 2e7 },
     );
-    console.log(tx);
     const { result } = await tx.signAndSend({ signTransaction });
     return `${Number(result.value)}`;
   }
@@ -190,7 +193,7 @@ export class FreighterWalletProvider implements WalletProvider {
         author_reserve: reserved,
         wasm_hash: Buffer.from(this.findsMintAddress, 'hex'),
       },
-      { fee: window.fee },
+      { fee: 2e7 },
     );
     await tx.signAndSend({ signTransaction });
   }
@@ -202,10 +205,13 @@ export class FreighterWalletProvider implements WalletProvider {
     nftSaleAddr: string,
     onInsufficientFinds?: (account: string, amount: string) => void,
   ) {
-    const tx = await this.contract!.mint_nft({
-      from: this.account,
-      story_id: Number(id),
-    });
+    const tx = await this.contract!.mint_nft(
+      {
+        from: this.account,
+        story_id: Number(id),
+      },
+      { fee: 2e7 },
+    );
     await tx.signAndSend({ signTransaction });
   }
 
@@ -266,57 +272,72 @@ export class FreighterWalletProvider implements WalletProvider {
         nft_address: nftAddress || this.factoryAddress,
         reward_nfts: rewards?.[0] ?? 0,
       },
-      { fee: window.fee },
+      { fee: 2e7 },
     );
     await tx.signAndSend({ signTransaction });
   }
 
   async updateTask(storyId: string, taskId: string, cid: string) {
-    const tx = await this.contract!.update_task({
-      from: this.account,
-      story_id: Number(storyId),
-      task_id: Number(taskId),
-      cid,
-    });
+    const tx = await this.contract!.update_task(
+      {
+        from: this.account,
+        story_id: Number(storyId),
+        task_id: Number(taskId),
+        cid,
+      },
+      { fee: 2e7 },
+    );
     await tx.signAndSend({ signTransaction });
   }
 
   async cancelTask(storyId: string, taskId: number) {
-    const tx = await this.contract!.cancel_task({
-      from: this.account,
-      story_id: Number(storyId),
-      task_id: Number(taskId),
-    });
+    const tx = await this.contract!.cancel_task(
+      {
+        from: this.account,
+        story_id: Number(storyId),
+        task_id: Number(taskId),
+      },
+      { fee: 2e7 },
+    );
     await tx.signAndSend({ signTransaction });
   }
 
   async createTaskSubmit(storyId: string, taskId: number, cid: string) {
-    const tx = await this.contract!.create_task_submit({
-      from: this.account,
-      story_id: Number(storyId),
-      task_id: Number(taskId),
-      cid,
-    });
+    const tx = await this.contract!.create_task_submit(
+      {
+        from: this.account,
+        story_id: Number(storyId),
+        task_id: Number(taskId),
+        cid,
+      },
+      { fee: 2e7 },
+    );
     await tx.signAndSend({ signTransaction });
   }
 
   async withdrawTaskSubmit(storyId: string, taskId: number, submitId: number) {
-    const tx = await this.contract!.withdraw_task_submit({
-      from: this.account,
-      story_id: Number(storyId),
-      task_id: Number(taskId),
-      submit_id: submitId,
-    });
+    const tx = await this.contract!.withdraw_task_submit(
+      {
+        from: this.account,
+        story_id: Number(storyId),
+        task_id: Number(taskId),
+        submit_id: submitId,
+      },
+      { fee: 2e7 },
+    );
     await tx.signAndSend({ signTransaction });
   }
 
   async markTaskDone(storyId: string, taskId: number, submitId: number) {
-    const tx = await this.contract!.mark_task_done({
-      from: this.account,
-      story_id: Number(storyId),
-      task_id: Number(taskId),
-      submit_id: submitId,
-    });
+    const tx = await this.contract!.mark_task_done(
+      {
+        from: this.account,
+        story_id: Number(storyId),
+        task_id: Number(taskId),
+        submit_id: submitId,
+      },
+      { fee: 2e7 },
+    );
     await tx.signAndSend({ signTransaction });
   }
 
@@ -330,11 +351,14 @@ export class FreighterWalletProvider implements WalletProvider {
   }
 
   async claimAuthorReservedNft(storyId: string, amount: number) {
-    const tx = await this.contract!.claim_author_reserved_nft({
-      from: this.account,
-      story_id: Number(storyId),
-      mint_num: amount,
-    });
+    const tx = await this.contract!.claim_author_reserved_nft(
+      {
+        from: this.account,
+        story_id: Number(storyId),
+        mint_num: amount,
+      },
+      { fee: 2e7 },
+    );
     await tx.signAndSend({ signTransaction });
   }
 

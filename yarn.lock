@@ -2266,10 +2266,9 @@
   resolved "https://registry.npmmirror.com/@stellar/js-xdr/-/js-xdr-3.1.1.tgz#be0ff90c8a861d6e1101bca130fa20e74d5599bb"
   integrity sha512-3gnPjAz78htgqsNEDkEsKHKosV2BF2iZkoHCNxpmZwUxiPsw+2VaXMed8RRMe0rGk3d5GZe7RrSba8zV80J3Ag==
 
-"@stellar/stellar-base@^12.0.0-rc.1":
-  version "12.0.0-rc.1"
-  resolved "https://registry.npmmirror.com/@stellar/stellar-base/-/stellar-base-12.0.0-rc.1.tgz#1c290b36eff54cb6492ce7b5f8de523488a276ba"
-  integrity sha512-Nm2WeqAnhfsZ2ETTttIJy8epgxGb03EXmWkcmxhyRd0us0qz++i0ry/cSnWaNYDWKipZTuepITUc4nM7o/s1tA==
+"@stellar/stellar-base@git+https://github.com/z384647062/js-stellar-base#master":
+  version "12.0.0"
+  resolved "git+https://github.com/z384647062/js-stellar-base#72bee54a58b91952dbd9a621aadc15e7eaa53874"
   dependencies:
     "@stellar/js-xdr" "^3.1.1"
     base32.js "^0.1.0"
@@ -2280,13 +2279,12 @@
   optionalDependencies:
     sodium-native "^4.1.1"
 
-"@stellar/stellar-sdk@^12.0.0-rc.3":
-  version "12.0.0-rc.3"
-  resolved "https://registry.npmmirror.com/@stellar/stellar-sdk/-/stellar-sdk-12.0.0-rc.3.tgz#d3e283731302baaba47ae069eff89bf325369859"
-  integrity sha512-FYO+F8VokXjP3Mu+OQtK0GrJWWvwf1+DL3n3aOi6M5H6EwJ6bp/yAOtfnClx6vqzzvpMbWveYABn8U9QNpcHww==
+"@stellar/stellar-sdk@git+https://github.com/z384647062/js-stellar-sdk#master":
+  version "12.0.1"
+  resolved "git+https://github.com/z384647062/js-stellar-sdk#2e75b3e2fb264098c2991496aea6eb158c6443e3"
   dependencies:
-    "@stellar/stellar-base" "^12.0.0-rc.1"
-    axios "^1.6.8"
+    "@stellar/stellar-base" "git+https://github.com/z384647062/js-stellar-base#master"
+    axios "^1.7.2"
     bignumber.js "^9.1.2"
     eventsource "^2.0.2"
     randombytes "^2.1.0"
@@ -3816,10 +3814,10 @@ axios@^0.27.2:
     follow-redirects "^1.14.9"
     form-data "^4.0.0"
 
-axios@^1.6.8:
-  version "1.7.1"
-  resolved "https://registry.npmmirror.com/axios/-/axios-1.7.1.tgz#522145622a09dfaf49359837db9649ff245a35b9"
-  integrity sha512-+LV37nQcd1EpFalkXksWNBiA17NZ5m5/WspmHGmZmdx1qBOg/VNq/c4eRJiA9VQQHBOs+N0ZhhdU10h2TyNK7Q==
+axios@^1.7.2:
+  version "1.7.2"
+  resolved "https://registry.npmmirror.com/axios/-/axios-1.7.2.tgz#b625db8a7051fbea61c35a3cbb3a1daa7b9c7621"
+  integrity sha512-2A8QhOMrbomlDuiLeK9XibIBzuHeRcqqNOHp0Cyp5EoJ1IFDh+XZH3A6BkXtv0K4gFGCI0Y4BM7B1wOEi0Rmgw==
   dependencies:
     follow-redirects "^1.15.6"
     form-data "^4.0.0"
@@ -9517,7 +9515,7 @@ nft_contract@./public/nft_contract:
   version "0.0.0"
   dependencies:
     "@stellar/freighter-api" "2.0.0"
-    "@stellar/stellar-sdk" "^12.0.0-rc.3"
+    "@stellar/stellar-sdk" "git+https://github.com/z384647062/js-stellar-sdk#master"
     buffer "6.0.3"
 
 no-case@^3.0.4:
@@ -12250,7 +12248,7 @@ story_factory@./public/story_factory:
   version "0.0.0"
   dependencies:
     "@stellar/freighter-api" "2.0.0"
-    "@stellar/stellar-sdk" "^12.0.0-rc.3"
+    "@stellar/stellar-sdk" "git+https://github.com/z384647062/js-stellar-sdk#master"
     buffer "6.0.3"
 
 stream-browserify@^2.0.1:
