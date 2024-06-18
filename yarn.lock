@@ -2281,7 +2281,7 @@
 
 "@stellar/stellar-sdk@git+https://github.com/z384647062/js-stellar-sdk#master":
   version "12.0.1"
-  resolved "git+https://github.com/z384647062/js-stellar-sdk#2e75b3e2fb264098c2991496aea6eb158c6443e3"
+  resolved "git+https://github.com/z384647062/js-stellar-sdk#43c61a093df91fc20fada8abeb702407e752b697"
   dependencies:
     "@stellar/stellar-base" "git+https://github.com/z384647062/js-stellar-base#master"
     axios "^1.7.2"
