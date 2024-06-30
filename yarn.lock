@@ -2266,9 +2266,10 @@
   resolved "https://registry.npmmirror.com/@stellar/js-xdr/-/js-xdr-3.1.1.tgz#be0ff90c8a861d6e1101bca130fa20e74d5599bb"
   integrity sha512-3gnPjAz78htgqsNEDkEsKHKosV2BF2iZkoHCNxpmZwUxiPsw+2VaXMed8RRMe0rGk3d5GZe7RrSba8zV80J3Ag==
 
-"@stellar/stellar-base@git+https://github.com/z384647062/js-stellar-base#master":
-  version "12.0.0"
-  resolved "git+https://github.com/z384647062/js-stellar-base#72bee54a58b91952dbd9a621aadc15e7eaa53874"
+"@stellar/stellar-base@^12.0.1":
+  version "12.0.1"
+  resolved "https://registry.npmmirror.com/@stellar/stellar-base/-/stellar-base-12.0.1.tgz#3fae34e8f787eb47cc7f58a0dea014e7b70724a7"
+  integrity sha512-g6c27MNsDgEdUmoNQJn7zCWoCY50WHt0OIIOq3PhWaJRtUaT++qs1Jpb8+1bny2GmhtfRGOfPUFSyQBuHT9Mvg==
   dependencies:
     "@stellar/js-xdr" "^3.1.1"
     base32.js "^0.1.0"
@@ -2279,11 +2280,12 @@
   optionalDependencies:
     sodium-native "^4.1.1"
 
-"@stellar/stellar-sdk@git+https://github.com/z384647062/js-stellar-sdk#master":
-  version "12.0.1"
-  resolved "git+https://github.com/z384647062/js-stellar-sdk#43c61a093df91fc20fada8abeb702407e752b697"
+"@stellar/stellar-sdk@^12.1.0":
+  version "12.1.0"
+  resolved "https://registry.npmmirror.com/@stellar/stellar-sdk/-/stellar-sdk-12.1.0.tgz#eafe064d36696ada5b7bd7e871f7199b6ed39222"
+  integrity sha512-Va0hu9SaPezmMbO5eMwL5D15Wrx1AGWRtxayUDRWV2Fr3ynY58mvCZS1vsgNQ4kE8MZe3nBVKv6T9Kzqwgx1PQ==
   dependencies:
-    "@stellar/stellar-base" "git+https://github.com/z384647062/js-stellar-base#master"
+    "@stellar/stellar-base" "^12.0.1"
     axios "^1.7.2"
     bignumber.js "^9.1.2"
     eventsource "^2.0.2"
@@ -9515,7 +9517,7 @@ nft_contract@./public/nft_contract:
   version "0.0.0"
   dependencies:
     "@stellar/freighter-api" "2.0.0"
-    "@stellar/stellar-sdk" "git+https://github.com/z384647062/js-stellar-sdk#master"
+    "@stellar/stellar-sdk" "^12.1.0"
     buffer "6.0.3"
 
 no-case@^3.0.4:
@@ -12248,7 +12250,7 @@ story_factory@./public/story_factory:
   version "0.0.0"
   dependencies:
     "@stellar/freighter-api" "2.0.0"
-    "@stellar/stellar-sdk" "git+https://github.com/z384647062/js-stellar-sdk#master"
+    "@stellar/stellar-sdk" "^12.1.0"
     buffer "6.0.3"
 
 stream-browserify@^2.0.1:

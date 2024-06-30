@@ -45,7 +45,7 @@
     "react-contenteditable": "^3.3.6",
     "react-helmet": "^6.1.0",
     "rehype-sanitize": "^5.0.1",
-    "@stellar/stellar-sdk": "git+https://github.com/z384647062/js-stellar-sdk#master",
+    "@stellar/stellar-sdk": "^12.1.0",
     "story_factory": "./public/story_factory",
     "tweetnacl-util": "^0.15.1",
     "typewriter-effect": "^2.21.0",

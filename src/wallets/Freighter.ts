@@ -20,17 +20,15 @@ import BigNumber from 'bignumber.js';
 import { Buffer } from 'buffer';
 import { Base64 } from 'js-base64';
 import * as _ from 'lodash';
-import { Client as NftClient, networks as nftNetworks } from 'nft_contract';
-import { Client, networks, StoryNftInfo } from 'story_factory';
+import { Client as NftClient } from 'nft_contract';
+import { Client, StoryNftInfo } from 'story_factory';
 
 const Network = process.env.NODE_ENV === 'production' ? 'PUBLIC' : 'TESTNET';
 // const RpcUrl =
 //   process.env.NODE_ENV === 'production'
 //     ? 'https://rpc.ankr.com/stellar_soroban/55fa8acd4f07f9e87a2ffea1bb912a574a7c6d68daa1292af4cfd688b5e171df'
 //     : 'https://soroban-testnet.stellar.org:443';
-const RpcUrl =
-  'https://rpc.ankr.com/stellar_soroban/55fa8acd4f07f9e87a2ffea1bb912a574a7c6d68daa1292af4cfd688b5e171df';
-
+const RpcUrl = '/story/stellar-rpc';
 const networkPassphrase = 'Public Global Stellar Network ; September 2015';
 
 export class FreighterWalletProvider implements WalletProvider {
@@ -90,11 +88,11 @@ export class FreighterWalletProvider implements WalletProvider {
       if (pubKey) {
         this.account = pubKey;
         this.contract = new Client({
-          ...networks.testnet,
-          networkPassphrase: 'Public Global Stellar Network ; September 2015',
+          networkPassphrase,
           contractId: this.factoryAddress,
           rpcUrl: RpcUrl,
           publicKey: pubKey,
+          allowHttp: true,
         });
         this.onConnect!({ address: pubKey });
       }
@@ -112,11 +110,11 @@ export class FreighterWalletProvider implements WalletProvider {
         this.onConnect!({ address: pubKey });
         this.account = pubKey;
         this.contract = new Client({
-          ...networks.testnet,
-          networkPassphrase: 'Public Global Stellar Network ; September 2015',
+          networkPassphrase,
           contractId: this.factoryAddress,
           rpcUrl: RpcUrl,
           publicKey: pubKey,
+          allowHttp: true,
         });
         this.setAutoConnect(WalletAutoConnectType.True);
         return pubKey;
@@ -251,10 +249,10 @@ export class FreighterWalletProvider implements WalletProvider {
   async getStoryNftContract(storyId: string): Promise<NftClient> {
     const nftAddr = await this.getNftAddress(storyId);
     return new NftClient({
-      ...nftNetworks.testnet,
-      networkPassphrase: 'Public Global Stellar Network ; September 2015',
+      networkPassphrase,
       contractId: nftAddr,
       rpcUrl: RpcUrl,
+      allowHttp: true,
     });
   }
 
