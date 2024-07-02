@@ -1,5 +1,5 @@
 import { GlobalContext, GlobalContextType } from '@/layouts';
-import { SelectLang, useIntl } from '@@/plugin-locale';
+import { useIntl } from '@@/plugin-locale';
 import { BulbFilled } from '@ant-design/icons';
 import { Avatar, Button } from 'antd';
 import { useContext } from 'react';
@@ -50,7 +50,7 @@ export default function RightContent() {
           formatMessage({ id: 'header.connect-wallet' })
         )}
       </div>
-      <SelectLang />
+      {/*<SelectLang />*/}
     </div>
   );
 }
