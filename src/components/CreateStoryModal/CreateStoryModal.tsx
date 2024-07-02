@@ -1,6 +1,5 @@
 import ImageUploader from '@/components/ImageUploader/ImageUploader';
 import { GlobalContext, GlobalContextType } from '@/layouts';
-import { ChainWallet } from '@/models/walletModel';
 import { getJson, uploadJson } from '@/services/api';
 import { ChainType } from '@/wallets';
 import { useModel } from '@@/exports';
@@ -69,6 +68,20 @@ export default function CreateStoryModal({
       addUpdateStoryPolling: model.addUpdateStoryPolling,
     }));
   const [chain, setChain] = useState<ChainType>();
+
+  useEffect(() => {
+    if (visible) {
+      const token = getToken(ChainType.Stellar);
+      if (!token) {
+        confirmLogin(ChainType.Stellar, {
+          onConfirm: () => setChain(ChainType.Stellar),
+          onReject: () => onClose(),
+        });
+      } else {
+        setChain(ChainType.Stellar);
+      }
+    }
+  }, [visible]);
 
   useEffect(() => {
     if (!visible) {
@@ -196,46 +209,6 @@ export default function CreateStoryModal({
           })}
         </div>
       </div>
-      {!update && (
-        <div className={styles.chainSelector}>
-          <div className={styles.chainSelectorTitle}>
-            {formatMessage({ id: 'publish-nft-modal.select-chain' })}
-          </div>
-          <div className={styles.chainItemRow}>
-            {Object.keys(connectedWallets)
-              .filter((chain) => !!connectedWallets[chain])
-              .map((_chain) => {
-                const chainWallet = chainWallets.find(
-                  (c: ChainWallet) => c.chainType === _chain,
-                );
-                return (
-                  <ChainItem
-                    key={_chain}
-                    selected={_chain === chain}
-                    onClick={() => {
-                      const token = getToken(_chain);
-                      if (!token) {
-                        confirmLogin(_chain as ChainType, {
-                          onConfirm: () => setChain(_chain as ChainType),
-                        });
-                      } else {
-                        setChain(_chain as ChainType);
-                      }
-                    }}
-                  >
-                    <img
-                      src={chainWallet.icon}
-                      className={styles.chainItemIcon}
-                    />
-                  </ChainItem>
-                );
-              })}
-            <ChainItem selected={false} onClick={openWalletModal}>
-              {formatMessage({ id: 'publish-nft-modal.select-chain-others' })}
-            </ChainItem>
-          </div>
-        </div>
-      )}
       {!!token && (
         <>
           <Form

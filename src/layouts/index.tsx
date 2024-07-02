@@ -79,6 +79,7 @@ export default function Layout() {
         confirmLogin: (chainType, callbacks) => {
           return new Promise<string | undefined>((resolve) => {
             const wallet = connectedWallets[chainType];
+            if (!wallet) resolve(undefined);
             if (wallet.noSignature) {
               getTokenAsync(chainType, true).then((token: string) => {
                 callbacks?.onConfirm?.(token);
