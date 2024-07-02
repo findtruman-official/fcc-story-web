@@ -71,7 +71,7 @@ export default function StoryCardList({
                 <Col key={`1_${e.chainType}_${e.id}`}>
                   <StoryCard
                     id={e.id}
-                    img={`${PREFIX}/ipfs/file/${encodeURIComponent(
+                    img={`${PREFIX}/ipfs/file/image/${encodeURIComponent(
                       e.cover || '',
                     )}`}
                     chainName={e.chain}
@@ -90,7 +90,7 @@ export default function StoryCardList({
                     <Col key={`2_${e.chainType}_${e.id}`}>
                       <StoryCard
                         id={e.id}
-                        img={`${PREFIX}/ipfs/file/${encodeURIComponent(
+                        img={`${PREFIX}/ipfs/file/image/${encodeURIComponent(
                           e.cover || '',
                         )}`}
                         chainName={e.chain}

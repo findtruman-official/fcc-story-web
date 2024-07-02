@@ -168,7 +168,7 @@ const NftCard = ({ loading, onPublish, syncing }: NftCardProps) => {
         <div className={styles.nftCard}>
           <img
             className={styles.nftCover}
-            src={`${PREFIX}/ipfs/file/${encodeURIComponent(
+            src={`${PREFIX}/ipfs/file/image/${encodeURIComponent(
               currentStory.nft.image.split('://')[1],
             )}`}
           />
