@@ -81,6 +81,8 @@ export default {
   'publish-nft-modal.publish': 'Publish',
   'publish-nft-modal.select-chain': 'Select a chain to publish you story:',
   'publish-nft-modal.select-chain-others': 'Others',
+  'publish-nft-modal.nft-name': 'NFT Name',
+  'publish-nft-modal.nft-name.require': 'Please enter!',
   'publish-nft-modal.nft-description': 'NFT Description',
   'publish-nft-modal.nft-description.require': 'Please enter!',
   'publish-nft-modal.nft-price': 'NFT Price',
@@ -108,6 +110,7 @@ export default {
   'create-task.claim-now': 'CLAIM NOW',
   'create-task.reward.placeholder':
     '[OPTIONAL] Select story NFT(s) you hold as a reward.',
+  'create-task.reward-title': 'Reward NFT(s)',
   'create-task.reward.empty': 'No story NFT is available.',
   'create-task.task-name.placeholder': 'Task name here...',
   'create-task.task-desc.placeholder':
@@ -118,7 +121,7 @@ export default {
   'task-modal.posted-by': 'Posted by',
   'task-modal.rewards': 'Rewards',
   'task-modal.rewards-desc':
-    'If your submission is accepted by the author, you will receive the following story NFT(s) as a reward.',
+    'If your submission is accepted by the author, you will receive the following number of story NFT(s) as a reward.',
   'task-modal.submits': 'Submits',
   'task-modal.review': 'Review',
   'task-modal.close': 'Close the task',

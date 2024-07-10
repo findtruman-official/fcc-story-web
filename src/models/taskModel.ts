@@ -12,6 +12,7 @@ import {
   updateStoryTask,
   uploadJson,
 } from '@/services/api';
+import { getStellarAssetSale } from '@/services/stellar';
 import { useModel } from '@@/exports';
 import { useRequest } from 'ahooks';
 import { useMemo, useState } from 'react';
@@ -370,6 +371,8 @@ export default () => {
           if (!connectedWallets[chainType]) {
             return;
           }
+          // TODO 从storyTask查询code issuer
+          const assetSale = await getStellarAssetSale(storyId);
           const { cid } = await uploadJson(
             {
               content,
@@ -380,6 +383,14 @@ export default () => {
             storyId,
             taskId,
             cid,
+            storyId.rewardNfts,
+            assetSale
+              ? {
+                  code: assetSale.code,
+                  issuer: assetSale.issuer,
+                  total: assetSale.total,
+                }
+              : undefined,
           );
           addCreateSubmitPolling({
             chain: chainType,

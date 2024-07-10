@@ -215,6 +215,22 @@ declare global {
       imageUrl: string;
       status: 'pending' | 'processing' | 'error' | 'success';
     };
+
+    type StellarAsset = {
+      id: string;
+      storyId: string;
+      code: string;
+      issuer: string;
+      name: string;
+      description: string;
+      imageCID: string;
+      price: string;
+      total: number;
+      authorReserved: number;
+      sold: number;
+      authorClaimed: number;
+      contractId: string;
+    };
   }
 
   namespace WalletCallback {

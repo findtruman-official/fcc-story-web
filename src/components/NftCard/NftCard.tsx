@@ -1,5 +1,6 @@
 import ColorfulBorder from '@/components/Colorful/ColorfulBorder';
 import { GlobalContext, GlobalContextType } from '@/layouts';
+import { getStellarAssetSale } from '@/services/stellar';
 import { PREFIX } from '@/utils/const';
 import { useIntl } from '@@/plugin-locale';
 import { InfoCircleOutlined, LoadingOutlined } from '@ant-design/icons';
@@ -16,7 +17,6 @@ import {
   Spin,
   Tooltip,
 } from 'antd';
-import BigNumber from 'bignumber.js';
 import { useContext, useEffect, useMemo, useState } from 'react';
 import { useModel } from 'umi';
 import styles from './NftCard.less';
@@ -74,6 +74,17 @@ const NftCard = ({ loading, onPublish, syncing }: NftCardProps) => {
   const chain = currentStory?.chainInfo.type;
   const wallet = connectedWallets[chain];
 
+  const { data: nftSale } = useRequest(
+    async () => {
+      if (!!currentStory?.nft) {
+        return await getStellarAssetSale(currentStory.chainStoryId);
+      }
+    },
+    {
+      refreshDeps: [currentStory],
+    },
+  );
+
   const claimReservedMax = useCreation(
     () =>
       wallet?.provider
@@ -98,14 +109,14 @@ const NftCard = ({ loading, onPublish, syncing }: NftCardProps) => {
 
   const { loading: minting, run: runMint } = useRequest(
     async () => {
-      if (!wallet?.provider) return;
+      if (!wallet?.provider || !nftSale) return;
 
       try {
         await wallet.provider.mintStoryNft(
           currentStory.chainStoryId,
           currentStory.author,
-          currentStory.nft.price,
-          currentStory.nft.nftSaleAddr,
+          nftSale.price,
+          nftSale.issuer,
           (account: string, amount: string) => {
             Modal.error({
               title: formatMessage({ id: 'story.insufficient-finds-title' }),
@@ -135,12 +146,8 @@ const NftCard = ({ loading, onPublish, syncing }: NftCardProps) => {
   const rest = useMemo(() => {
     if (isChainConnected && restOfStoryNftOnChain != -1) {
       return restOfStoryNftOnChain;
-    } else if (currentStory?.nft) {
-      return (
-        currentStory.nft.total -
-        currentStory.nft.sold -
-        currentStory.nft.authorReserved
-      );
+    } else if (nftSale) {
+      return nftSale.total - nftSale.sold - nftSale.authorReserved;
     } else {
       return 0;
     }
@@ -164,37 +171,31 @@ const NftCard = ({ loading, onPublish, syncing }: NftCardProps) => {
           <Skeleton.Image active={true} />
           <Skeleton style={{ padding: '20px 24px' }} active={true} />
         </div>
-      ) : currentStory.nft ? (
+      ) : nftSale ? (
         <div className={styles.nftCard}>
           <img
             className={styles.nftCover}
             src={`${PREFIX}/ipfs/file/image/${encodeURIComponent(
-              currentStory.nft.image.split('://')[1],
+              nftSale.imageCID,
             )}`}
           />
           <div className={styles.nftMeta}>
-            <Tooltip placement={'topLeft'} title={currentStory.nft.name}>
-              <div className={styles.nftName}>{currentStory.nft.name}</div>
+            <Tooltip placement={'topLeft'} title={nftSale.name}>
+              <div className={styles.nftName}>{nftSale.name}</div>
             </Tooltip>
             <Row gutter={[8, 8]} style={{ marginBottom: 12 }}>
               <Col span={12}>
                 <div className={styles.nftMetaLabel}>
                   {formatMessage({ id: 'story.total' })}
                 </div>
-                <div className={styles.nftMetaValue}>
-                  {currentStory.nft.total}
-                </div>
+                <div className={styles.nftMetaValue}>{nftSale.total}</div>
               </Col>
               <Col span={12}>
                 <div className={styles.nftMetaLabel}>
                   {formatMessage({ id: 'story.price' })}
                 </div>
                 <div className={styles.nftMetaValue}>
-                  {mintDecimals
-                    ? new BigNumber(currentStory.nft.price)
-                        .div(new BigNumber(10).pow(new BigNumber(mintDecimals)))
-                        .toString()
-                    : '-'}
+                  {mintDecimals ? nftSale.price : '-'}
                 </div>
               </Col>
               <Col span={12}>

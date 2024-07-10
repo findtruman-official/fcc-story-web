@@ -232,6 +232,7 @@ export default () => {
           item.chainType === currentStory.chainInfo.type
         ) {
           refreshCurrentStory();
+          refreshReservedNftRest();
         }
         return !!story.nft;
       },

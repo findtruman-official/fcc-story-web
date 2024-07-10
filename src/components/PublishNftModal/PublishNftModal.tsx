@@ -49,9 +49,9 @@ export default function PublishNftModal({
       if (!chain || !wallet) return;
 
       try {
-        const name = `${currentStory.info?.title} NFT`;
+        // const name = `${currentStory.info?.title} NFT`;
 
-        const { img, desc, price, totalSupply, reservedAmount } = values;
+        const { name, img, desc, price, totalSupply, reservedAmount } = values;
         if (reservedAmount >= totalSupply) {
           message.warning(
             formatMessage({ id: 'publish-nft-modal.reserve-less-than-total' }),
@@ -139,6 +139,32 @@ export default function PublishNftModal({
           </Col>
           <Col flex={1}>
             <Form.Item
+              name={'name'}
+              label={formatMessage({
+                id: 'publish-nft-modal.nft-name',
+              })}
+              rules={[
+                {
+                  required: true,
+                  message: formatMessage({
+                    id: 'publish-nft-modal.nft-name.require',
+                  }),
+                },
+              ]}
+            >
+              <Input
+                showCount={true}
+                maxLength={12}
+                onChange={(e) => {
+                  // setNftName();
+                  form.setFieldValue(
+                    'name',
+                    e.target.value.replace(/[^a-zA-Z0-9]/g, ''),
+                  );
+                }}
+              />
+            </Form.Item>
+            <Form.Item
               name={'desc'}
               label={formatMessage({
                 id: 'publish-nft-modal.nft-description',
@@ -152,7 +178,12 @@ export default function PublishNftModal({
                 },
               ]}
             >
-              <Input.TextArea showCount={true} maxLength={500} rows={6} />
+              <Input.TextArea
+                showCount={true}
+                maxLength={500}
+                rows={2}
+                style={{ resize: 'none' }}
+              />
             </Form.Item>
           </Col>
         </Row>

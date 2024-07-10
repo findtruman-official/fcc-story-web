@@ -89,6 +89,7 @@ export interface WalletProvider {
       img: string;
     },
     uriPrefix: string,
+    code?: string,
   ): Promise<void>;
 
   mintStoryNft(
@@ -113,14 +114,24 @@ export interface WalletProvider {
     storyId: string,
     cid: string,
     nftAddress: string,
-    rewards: number[],
+    rewards: number[] | number,
   ): Promise<void>;
 
   updateTask(storyId: string, taskId: string, cid: string): Promise<void>;
 
   cancelTask(storyId: string, taskId: number): Promise<void>;
 
-  createTaskSubmit(storyId: string, taskId: number, cid: string): Promise<void>;
+  createTaskSubmit(
+    storyId: string,
+    taskId: number,
+    cid: string,
+    rewardAmount?: number,
+    asset?: {
+      code: string;
+      issuer: string;
+      total: number;
+    },
+  ): Promise<void>;
 
   withdrawTaskSubmit(
     storyId: string,

@@ -1,9 +1,8 @@
 import MDEditorWithPreview from '@/components/MDEditorWithPreview/MDEditorWithPreview';
 import { useIntl } from '@@/exports';
-import { Button, Input, message, Modal, Select, Spin } from 'antd';
+import { Button, Input, InputNumber, message, Modal } from 'antd';
 import { useEffect, useState } from 'react';
 import { useModel } from 'umi';
-import styles from './CreateTaskModal.less';
 
 interface CreateTaskModalProps {
   visible: boolean;
@@ -43,6 +42,7 @@ export default function CreateTaskModal({
   const [title, setTitle] = useState('');
   const [desc, setDesc] = useState('');
   const [rewards, setRewards] = useState<number[]>([]);
+  const [rewardsAmount, setRewardsAmount] = useState(0);
 
   useEffect(() => {
     setRewards([]);
@@ -65,37 +65,48 @@ export default function CreateTaskModal({
       width={720}
     >
       {taskModule === 'Chain' && (
-        <Select
-          disabled={loadingCreateStoryTask}
-          // mode="multiple"
-          allowClear
-          style={{ width: '100%', marginTop: 24, padding: 0 }}
-          size={'large'}
-          bordered={false}
-          placeholder={formatMessage({ id: 'create-task.reward.placeholder' })}
-          loading={gettingNfts}
-          options={nfts?.map((nft: number) => ({
-            value: nft,
-            label: `${currentStory?.info.title} NFT #${nft}`,
-          }))}
-          value={rewards}
-          notFoundContent={
-            <Spin spinning={gettingNfts}>
-              <div className={styles.noNftTip}>
-                {!!reservedNftRest ? (
-                  <>
-                    <div>
-                      {formatMessage({ id: 'create-task.nft-not-claimed' })}
-                    </div>
-                  </>
-                ) : balanceOfStoryNft === 0 ? (
-                  <div>{formatMessage({ id: 'create-task.reward.empty' })}</div>
-                ) : undefined}
-              </div>
-            </Spin>
-          }
-          onChange={setRewards}
-        />
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+          <div style={{ marginRight: 12, fontSize: 16 }}>
+            {formatMessage({ id: 'create-task.reward-title' })}
+          </div>
+          <InputNumber
+            min={0}
+            max={balanceOfStoryNft}
+            value={rewardsAmount}
+            onChange={(e) => setRewardsAmount(e)}
+          />
+        </div>
+        // <Select
+        //   disabled={loadingCreateStoryTask}
+        //   // mode="multiple"
+        //   allowClear
+        //   style={{ width: '100%', marginTop: 24, padding: 0 }}
+        //   size={'large'}
+        //   bordered={false}
+        //   placeholder={formatMessage({ id: 'create-task.reward.placeholder' })}
+        //   loading={gettingNfts}
+        //   options={nfts?.map((nft: number) => ({
+        //     value: nft,
+        //     label: `${currentStory?.info.title} NFT #${nft}`,
+        //   }))}
+        //   value={rewards}
+        //   notFoundContent={
+        //     <Spin spinning={gettingNfts}>
+        //       <div className={styles.noNftTip}>
+        //         {!!reservedNftRest ? (
+        //           <>
+        //             <div>
+        //               {formatMessage({ id: 'create-task.nft-not-claimed' })}
+        //             </div>
+        //           </>
+        //         ) : balanceOfStoryNft === 0 ? (
+        //           <div>{formatMessage({ id: 'create-task.reward.empty' })}</div>
+        //         ) : undefined}
+        //       </div>
+        //     </Spin>
+        //   }
+        //   onChange={setRewards}
+        // />
       )}
       <Input
         disabled={loadingCreateStoryTask}
@@ -127,7 +138,8 @@ export default function CreateTaskModal({
               {
                 title,
                 description: desc,
-                rewards: Array.isArray(rewards) ? rewards : [rewards],
+                // rewards: Array.isArray(rewards) ? rewards : [rewards],
+                rewards: rewardsAmount,
               },
               token,
             );
@@ -135,8 +147,10 @@ export default function CreateTaskModal({
             setTitle('');
             setDesc('');
             setRewards([]);
+            setRewardsAmount(0);
             message.success(formatMessage({ id: 'create-task.created' }));
           } catch (e) {
+            console.log(e);
             message.error(formatMessage({ id: 'request-failed' }));
           }
         }}

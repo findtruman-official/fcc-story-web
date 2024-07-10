@@ -1,5 +1,6 @@
 import ColorfulText from '@/components/Colorful/ColorfulText';
 import MDEditorWithPreview from '@/components/MDEditorWithPreview/MDEditorWithPreview';
+import useWalletCallback from '@/hooks/useWalletCallback';
 import { shortenAccount } from '@/utils/format';
 import { useIntl, useLocation, useModel } from '@@/exports';
 import {
@@ -15,21 +16,10 @@ import {
   UserOutlined,
 } from '@ant-design/icons';
 import MDEditor from '@uiw/react-md-editor';
-import {
-  Button,
-  Col,
-  Input,
-  message,
-  Modal,
-  Row,
-  Space,
-  Tag,
-  Tooltip,
-} from 'antd';
+import { Button, Col, Input, message, Modal, Row, Space, Tooltip } from 'antd';
 import { MacScrollbar } from 'mac-scrollbar';
 import { useCallback, useEffect, useState } from 'react';
 import styles from './TaskModal.less';
-import useWalletCallback from "@/hooks/useWalletCallback";
 
 interface TaskColProps {
   visible: boolean;
@@ -65,7 +55,7 @@ export default function TaskCol({ visible, onClose }: TaskColProps) {
 
   const location = useLocation();
   const { search } = location;
-  const {walletCallbackType} = useWalletCallback({search, handle:false})
+  const { walletCallbackType } = useWalletCallback({ search, handle: false });
 
   const [edit, setEdit] = useState(false);
   const [newTitle, setNewTitle] = useState('');
@@ -81,12 +71,12 @@ export default function TaskCol({ visible, onClose }: TaskColProps) {
   }, [storyTask]);
 
   useEffect(() => {
-    if(walletCallbackType === 'update-task'){
+    if (walletCallbackType === 'update-task') {
       storyTask?.title && setNewTitle(storyTask.title);
       storyTask?.description && setNewDesc(storyTask.description);
       setEdit(true);
     }
-  }, [walletCallbackType])
+  }, [walletCallbackType]);
 
   const renderStatus = useCallback((status: API.StoryTaskStatus) => {
     if (!status) return undefined;
@@ -219,7 +209,7 @@ export default function TaskCol({ visible, onClose }: TaskColProps) {
           {shortenAccount(currentStory?.author)}
         </div>
       </div>
-      {storyTask?.rewardNfts && storyTask.rewardNfts.length > 0 && (
+      {storyTask?.rewardNfts && !!Number(storyTask.rewardNfts[0]) && (
         <Tooltip
           placement={'topLeft'}
           title={formatMessage({ id: 'task-modal.rewards-desc' })}
@@ -238,10 +228,10 @@ export default function TaskCol({ visible, onClose }: TaskColProps) {
                   fontWeight: 'bold',
                   marginRight: 8,
                 }}
-              >{`${currentStory?.info?.title || ''} NFT`}</ColorfulText>
-              {storyTask.rewardNfts.map((e: string) => (
-                <Tag key={e}>{`# ${e}`}</Tag>
-              ))}
+              >{`${storyTask.rewardNfts} NFT(s)`}</ColorfulText>
+              {/*{storyTask.rewardNfts.map((e: string) => (*/}
+              {/*  <Tag key={e}>{`# ${e}`}</Tag>*/}
+              {/*))}*/}
             </div>
           </div>
         </Tooltip>
